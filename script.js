@@ -7,6 +7,22 @@ function addMessage(sender, text) {
   chatbox.scrollTop = chatbox.scrollHeight;
 }
 
+// Add a temporary "typing..." message
+function showTyping() {
+  const chatbox = document.getElementById("chatbox");
+  const typing = document.createElement("p");
+  typing.id = "typingIndicator";
+  typing.innerHTML = `<strong>Bot:</strong> <em>typing...</em>`;
+  chatbox.appendChild(typing);
+  chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+// Remove the typing message
+function hideTyping() {
+  const typing = document.getElementById("typingIndicator");
+  if (typing) typing.remove();
+}
+
 // Handle sending a message
 function sendMessage() {
   const input = document.getElementById("userInput");
@@ -16,15 +32,18 @@ function sendMessage() {
   addMessage("You", text);
   input.value = "";
 
+  // Show typing animation
+  showTyping();
+
   // Fake AI response
   setTimeout(() => {
+    hideTyping();
     const reply = generateAIResponse(text);
     addMessage("Bot", reply);
-  }, 500);
+  }, 1200); // delay for animation
 }
 
 // Simple fake AI logic
 function generateAIResponse(userText) {
-  // You can customize this however you want
   return "I'm a simple AI chatbot! You said: " + userText;
 }
