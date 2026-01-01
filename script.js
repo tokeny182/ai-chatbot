@@ -1,10 +1,35 @@
-// Add a message to the chatbox
+// Play a sound when the bot sends a message
+const botSound = new Audio("bot-sound.mp3"); // put this file in the same folder
+
+// Add a message instantly (used for user messages)
 function addMessage(sender, text) {
   const chatbox = document.getElementById("chatbox");
   const msg = document.createElement("p");
   msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
   chatbox.appendChild(msg);
   chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+// Add a message letter-by-letter (for bot)
+function typeMessage(sender, text) {
+  const chatbox = document.getElementById("chatbox");
+  const msg = document.createElement("p");
+  chatbox.appendChild(msg);
+
+  let i = 0;
+  botSound.play(); // play sound once when typing starts
+
+  function type() {
+    msg.innerHTML = `<strong>${sender}:</strong> ${text.slice(0, i)}`;
+    chatbox.scrollTop = chatbox.scrollHeight;
+
+    if (i < text.length) {
+      i++;
+      setTimeout(type, 30); // typing speed
+    }
+  }
+
+  type();
 }
 
 // Create the bouncing dots typing indicator
@@ -26,7 +51,6 @@ function showTyping() {
   chatbox.scrollTop = chatbox.scrollHeight;
 }
 
-// Remove typing indicator
 function hideTyping() {
   const typing = document.getElementById("typingIndicator");
   if (typing) typing.remove();
@@ -46,11 +70,11 @@ function sendMessage() {
   setTimeout(() => {
     hideTyping();
     const reply = generateAIResponse(text);
-    addMessage("Bot", reply);
+    typeMessage("Bot", reply);
   }, 1500);
 }
 
 // Fake AI logic
 function generateAIResponse(userText) {
-  return "I'm a simple AI chatbot! You said: " + userText;
+  return "I'm typing this letter by letter! You said: " + userText;
 }
