@@ -16,6 +16,11 @@ body {
   overflow-y: auto;
 }
 
+/* Make typed messages wrap correctly */
+p {
+  white-space: pre-wrap;
+}
+
 /* Input area */
 #inputArea {
   margin-top: 15px;
@@ -45,6 +50,8 @@ button {
 button:hover {
   background: #e6e6e6;
 }
+
+/* Typing dots */
 .dots {
   display: inline-block;
 }
