@@ -7,17 +7,26 @@ function addMessage(sender, text) {
   chatbox.scrollTop = chatbox.scrollHeight;
 }
 
-// Add a temporary "typing..." message
+// Create the bouncing dots typing indicator
 function showTyping() {
   const chatbox = document.getElementById("chatbox");
-  const typing = document.createElement("p");
+
+  const typing = document.createElement("div");
   typing.id = "typingIndicator";
-  typing.innerHTML = `<strong>Bot:</strong> <em>typing...</em>`;
+  typing.innerHTML = `
+    <strong>Bot:</strong>
+    <span class="dots">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </span>
+  `;
+
   chatbox.appendChild(typing);
   chatbox.scrollTop = chatbox.scrollHeight;
 }
 
-// Remove the typing message
+// Remove typing indicator
 function hideTyping() {
   const typing = document.getElementById("typingIndicator");
   if (typing) typing.remove();
@@ -32,18 +41,16 @@ function sendMessage() {
   addMessage("You", text);
   input.value = "";
 
-  // Show typing animation
   showTyping();
 
-  // Fake AI response
   setTimeout(() => {
     hideTyping();
     const reply = generateAIResponse(text);
     addMessage("Bot", reply);
-  }, 1200); // delay for animation
+  }, 1500);
 }
 
-// Simple fake AI logic
+// Fake AI logic
 function generateAIResponse(userText) {
   return "I'm a simple AI chatbot! You said: " + userText;
 }
